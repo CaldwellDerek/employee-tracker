@@ -17,9 +17,9 @@ const viewAllDepartments = () => {
         if (error){
             console.log(error);
         } else {
-            console.log (`\n\n`);
+            console.log(`\n\n`);
             console.table(data);
-            console.log (`\n\n`);
+            console.log(`\n\n`);
             initialPrompt();
         }
     }); 
@@ -30,9 +30,9 @@ const viewAllRoles = () => {
         if (error){
             console.log(error);
         } else {
-            console.log (`\n\n`);
+            console.log(`\n\n`);
             console.table(data);
-            console.log (`\n\n`);
+            console.log(`\n\n`);
             initialPrompt();
         }
     });
@@ -45,10 +45,22 @@ const viewAllEmployees = () => {
         if (error){
             console.log(error);
         } else {
-            console.log (`\n\n`);
+            console.log(`\n\n`);
             console.table(data);
-            console.log (`\n\n`);
+            console.log(`\n\n`);
             initialPrompt();
+        }
+    });
+}
+
+const addDepartment = (deptName)=> {
+    db.query(`INSERT INTO department (name) VALUES (?)`, deptName, (error) => {
+        if (error){
+            console.log(error);
+        } else {
+            console.log(`\n\n`);
+            console.log(`Successfully added Department: ${deptName}`);
+            viewAllDepartments();
         }
     });
 }
@@ -82,6 +94,10 @@ const initialPrompt = async ()=> {
 
     if (menu.menuChoice == "- View All Employees"){
         viewAllEmployees();
+    }
+
+    if (menu.menuChoice == "- Add a Department"){
+        addDepartment("Albertsons");
     }
 }
 
