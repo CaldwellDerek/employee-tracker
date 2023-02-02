@@ -53,13 +53,22 @@ const viewAllEmployees = () => {
     });
 }
 
-const addDepartment = (deptName)=> {
-    db.query(`INSERT INTO department (name) VALUES (?)`, deptName, (error) => {
+const addDepartment = async ()=> {
+
+    const getDeptName = await i.prompt([
+        {
+            type: "input",
+            name: "deptName",
+            message: "Please enter the name of the Department to add: "
+        }
+    ]);
+
+    db.query(`INSERT INTO department (name) VALUES (?)`, [getDeptName.deptName], (error) => {
         if (error){
             console.log(error);
         } else {
             console.log(`\n\n`);
-            console.log(`Successfully added Department: ${deptName}`);
+            console.log(`Successfully added Department: ${getDeptName.deptName}`);
             viewAllDepartments();
         }
     });
@@ -97,7 +106,7 @@ const initialPrompt = async ()=> {
     }
 
     if (menu.menuChoice == "- Add a Department"){
-        addDepartment("Albertsons");
+        addDepartment();
     }
 }
 
