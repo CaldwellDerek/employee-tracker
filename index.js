@@ -38,6 +38,21 @@ const viewAllRoles = () => {
     });
 }
 
+const viewAllEmployees = () => {
+    db.query(
+        "SELECT employee.id, employee.first_name, employee.last_name, role.title, role.department_id, role.salary, employee.manager_id FROM employee JOIN role WHERE employee.role_id = role.id", 
+        (error, data) => {
+        if (error){
+            console.log(error);
+        } else {
+            console.log (`\n\n`);
+            console.table(data);
+            console.log (`\n\n`);
+            initialPrompt();
+        }
+    });
+}
+
 const initialPrompt = async ()=> {
     const menu = await i.prompt([
         {
@@ -63,6 +78,10 @@ const initialPrompt = async ()=> {
 
     if (menu.menuChoice == "- View All Roles"){
         viewAllRoles();
+    }
+
+    if (menu.menuChoice == "- View All Employees"){
+        viewAllEmployees();
     }
 }
 
