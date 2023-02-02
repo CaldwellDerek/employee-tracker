@@ -25,18 +25,18 @@ const viewAllDepartments = () => {
     }); 
 }
 
-// const viewAllRoles = () => {
-//     db.query("SELECT * FROM role", (error, data) => {
-//         if (error){
-//             console.log(error);
-//         } else {
-//             console.log (`\n\n`);
-//             console.table(data);
-//             console.log (`\n\n`);
-//             initialPrompt();
-//         }
-//     });
-// }
+const viewAllRoles = () => {
+    db.query("SELECT * FROM role", (error, data) => {
+        if (error){
+            console.log(error);
+        } else {
+            console.log (`\n\n`);
+            console.table(data);
+            console.log (`\n\n`);
+            initialPrompt();
+        }
+    });
+}
 
 const initialPrompt = async ()=> {
     const menu = await i.prompt([
@@ -61,9 +61,9 @@ const initialPrompt = async ()=> {
         viewAllDepartments();
     }
 
-    // if (menu.menuChoice == "- View All Roles"){
-    //     viewAllRoles();
-    // }
+    if (menu.menuChoice == "- View All Roles"){
+        viewAllRoles();
+    }
 }
 
 initialPrompt();
