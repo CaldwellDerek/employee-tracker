@@ -3,6 +3,8 @@ require("dotenv").config();
 const mysql = require("mysql2");
 const cTable = require('console.table');
 
+// ----------------------------------------------------
+
 const db = mysql.createConnection(
 	{
 		host: 'localhost',
@@ -11,6 +13,8 @@ const db = mysql.createConnection(
 		database: process.env.DB_DATABASE
 	}
 )
+
+// ----------------------------------------------------
 
 const viewAllDepartments = () => {
     db.query("SELECT id, name FROM department", (error, data) => {
@@ -25,6 +29,8 @@ const viewAllDepartments = () => {
     }); 
 }
 
+// ----------------------------------------------------
+
 const viewAllRoles = () => {
     db.query("SELECT * FROM role", (error, data) => {
         if (error){
@@ -37,6 +43,8 @@ const viewAllRoles = () => {
         }
     });
 }
+
+// ----------------------------------------------------
 
 const viewAllEmployees = () => {
     db.query(
@@ -53,26 +61,65 @@ const viewAllEmployees = () => {
     });
 }
 
+// ----------------------------------------------------
+
 const addDepartment = async ()=> {
 
     const getDeptName = await i.prompt([
         {
             type: "input",
-            name: "deptName",
+            name: "name",
             message: "Please enter the name of the Department to add: "
         }
     ]);
 
-    db.query(`INSERT INTO department (name) VALUES (?)`, [getDeptName.deptName], (error) => {
+    db.query(`INSERT INTO department (name) VALUES (?)`, [getDeptName.name], (error) => {
         if (error){
             console.log(error);
         } else {
             console.log(`\n\n`);
-            console.log(`Successfully added Department: ${getDeptName.deptName}`);
+            console.log(`Successfully added Department: ${getDeptName.name}`);
             viewAllDepartments();
         }
     });
 }
+
+// ----------------------------------------------------
+
+const addRole = async () => {
+
+    const getNewRole = await i.prompt([
+        {
+            type: "input",
+            name: "title",
+            message: "Please enter the name of the Role: "
+        },
+        {
+            type: "input",
+            name: "salary",
+            message: "Please enter the role's salary: "
+        },
+        {
+            type: "input",
+            name: "department_id",
+            message: "Please enter the role's Department ID: "
+        }
+    ]);
+
+    const {title, salary, department_id} = getNewRole;
+
+    db.query(`INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`, [title, salary, department_id], (error) => {
+        if (error){
+            console.log(error);
+        } else {
+            console.log(`\n\n`);
+            console.log(`Successfully added Role: ${title}`);
+            viewAllRoles();
+        }
+    });
+}
+
+// ----------------------------------------------------
 
 const initialPrompt = async ()=> {
     const menu = await i.prompt([
@@ -107,6 +154,10 @@ const initialPrompt = async ()=> {
 
     if (menu.menuChoice == "- Add a Department"){
         addDepartment();
+    }
+
+    if (menu.menuChoice == "- Add a Role"){
+        addRole();
     }
 }
 
