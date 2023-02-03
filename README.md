@@ -13,7 +13,7 @@
 
 
 ## Description
-This application uses the command line interface to prompt the user from a series of options. Each option uses queries to create, read, update and delete employe information.
+This application uses the command line interface to prompt the user from a series of options. Each option uses queries to create, read, update and delete employee information.
 
 Technologies used for this application:
 1. MySQL2
@@ -35,7 +35,7 @@ Quickly add, find, update and delete employee information saved to a local datab
 This application is open source and can be used by anyone.
 
 ## Tests
-No test suites have been run on this application at the time.
+No test suites have been run on this application at this time.
 
 ## License
 This application is currently covered under the MIT License. More information about this license can be viewed under the file named 'LICENSE' in the repository.
@@ -49,3 +49,12 @@ All of my work can be viewed at my GitHub profile: [CaldwellDerek](https://githu
 
 ### dotenv example:
 ![dotenv-example](./assets/images/dotenv-example.png)
+
+### inital prompt example:
+![initial-prompt-example](./assets/images/initial-prompt-example.png)
+
+### view departments and roles example:
+![view-examples](./assets/images/view-examples.png)
+
+### adding a role example:
+![adding-role-example](./assets/images/add-a-role-examples.png)
