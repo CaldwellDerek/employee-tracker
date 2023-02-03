@@ -3,8 +3,7 @@ require("dotenv").config();
 const mysql = require("mysql2");
 const cTable = require('console.table');
 
-// ----------------------------------------------------
-
+// Establishes mysql connection based off of env variables
 const db = mysql.createConnection(
 	{
 		host: 'localhost',
@@ -14,38 +13,33 @@ const db = mysql.createConnection(
 	}
 );
 
-// ----------------------------------------------------
-
+// Queries the db to display the id and names from the department table
 const viewAllDepartments = () => {
     db.query("SELECT id, name FROM department", (error, data) => {
         if (error){
             console.log(error);
         } else {
-            console.log(`\n\n`);
+            console.log("\n");
             console.table(data);
-            console.log(`\n\n`);
             initialPrompt();
         }
     }); 
 };
 
-// ----------------------------------------------------
-
+// Queries the db to display all data from the role table
 const viewAllRoles = () => {
     db.query("SELECT * FROM role", (error, data) => {
         if (error){
             console.log(error);
         } else {
-            console.log(`\n\n`);
+            console.log("\n");
             console.table(data);
-            console.log(`\n\n`);
             initialPrompt();
         }
     });
 };
 
-// ----------------------------------------------------
-
+// Queries the db to join specified values from the employee and role tables
 const viewAllEmployees = () => {
     db.query(
         `SELECT 
@@ -67,16 +61,14 @@ const viewAllEmployees = () => {
         if (error){
             console.log(error);
         } else {
-            console.log(`\n\n`);
+            console.log("\n");
             console.table(data);
-            console.log(`\n\n`);
             initialPrompt();
         }
     });
 };
 
-// ----------------------------------------------------
-
+// Prompts the user for the name of the department to add, queries the db to insert the new department
 const addDepartment = async ()=> {
 
     const getDeptName = await i.prompt([
@@ -91,15 +83,13 @@ const addDepartment = async ()=> {
         if (error){
             console.log(error);
         } else {
-            console.log(`\n\n`);
-            console.log(`Successfully added Department: ${getDeptName.name}`);
+            console.log(`\nSuccessfully added Department: ${getDeptName.name}`);
             viewAllDepartments();
         }
     });
 };
 
-// ----------------------------------------------------
-
+// Prompts the user for the new role information to add, queries the db to insert the new role
 const addRole = async () => {
 
     const getNewRole = await i.prompt([
@@ -126,14 +116,13 @@ const addRole = async () => {
         if (error){
             console.log(error);
         } else {
-            console.log(`\n\n`);
-            console.log(`Successfully added Role: ${title}`);
+            console.log(`\nSuccessfully added Role: ${title}`);
             viewAllRoles();
         }
     });
 };
 
-// ----------------------------------------------------
+// Prompts the user for new employee information, queries the db to insert the new employee into the employee table
 const addEmployee = async () => {
 
     const getNewEmployee = await i.prompt([
@@ -165,13 +154,14 @@ const addEmployee = async () => {
         if (error){
             console.log(error);
         } else {
-            console.log(`\n\n`);
-            console.log(`Successfully added Employee: ${first_name} ${last_name}`);
+            console.log(`\nSuccessfully added Employee: ${first_name} ${last_name}`);
             viewAllEmployees();
         }
     });
 };
-// ----------------------------------------------------
+
+
+// Promisifies a query to the db to retrieve all employee information
 const getAllEmployees = () => {
     return new Promise( (resolve, reject) => {
         db.query("SELECT * FROM employee", (error, results) => {
@@ -184,6 +174,7 @@ const getAllEmployees = () => {
     });
 };
 
+// Promisifies a query to the db to retrieve all role information
 const getAllRoles = () => {
     return new Promise( (resolve, reject) => {
         db.query("SELECT * FROM role", (error, results) => {
@@ -196,6 +187,8 @@ const getAllRoles = () => {
     });
 };
 
+// Uses getAllEmployees() and getAllRoles() to populate the arrays used for the choices on the updateEmployeePrompt
+// Taking the information from the prompt, the db is queried to update the role of the desired employee
 const updateEmployee = async () => {
     const allEmployees = [];
     const allRoles = [];
@@ -234,14 +227,13 @@ const updateEmployee = async () => {
         if (error){
             console.log(error);
         } else {
-            console.log(`\n\n`);
-            console.log(`Successfully updated employee with ID: ${updateEmployeePrompt.employee} to Role: ${updateEmployeePrompt.role}`);
+            console.log(`\nSuccessfully updated employee with ID: ${updateEmployeePrompt.employee} to Role: ${updateEmployeePrompt.role}`);
             viewAllEmployees();
         }
     })
 }
 
-// ----------------------------------------------------
+// The initial prompt used at application execution
 const initialPrompt = async ()=> {
     const menu = await i.prompt([
         {
@@ -290,4 +282,5 @@ const initialPrompt = async ()=> {
     }
 }
 
+// Ran at application execution
 initialPrompt();
