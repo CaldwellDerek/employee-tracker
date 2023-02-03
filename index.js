@@ -12,7 +12,7 @@ const db = mysql.createConnection(
 		password: process.env.DB_PASSWORD,
 		database: process.env.DB_DATABASE
 	}
-)
+);
 
 // ----------------------------------------------------
 
@@ -27,7 +27,7 @@ const viewAllDepartments = () => {
             initialPrompt();
         }
     }); 
-}
+};
 
 // ----------------------------------------------------
 
@@ -42,7 +42,7 @@ const viewAllRoles = () => {
             initialPrompt();
         }
     });
-}
+};
 
 // ----------------------------------------------------
 
@@ -59,7 +59,7 @@ const viewAllEmployees = () => {
             initialPrompt();
         }
     });
-}
+};
 
 // ----------------------------------------------------
 
@@ -82,7 +82,7 @@ const addDepartment = async ()=> {
             viewAllDepartments();
         }
     });
-}
+};
 
 // ----------------------------------------------------
 
@@ -117,8 +117,46 @@ const addRole = async () => {
             viewAllRoles();
         }
     });
-}
+};
 
+// ----------------------------------------------------
+const addEmployee = async () => {
+
+    const getNewEmployee = await i.prompt([
+        {
+            type: "input",
+            name: "first_name",
+            message: "Please enter the employee's first name: "
+        },
+        {
+            type: "input",
+            name: "last_name",
+            message: "Please enter the employee's last name: "
+        },
+        {
+            type: "input",
+            name: "role_id",
+            message: "Please enter the employee's role id: "
+        },
+        {
+            type: "input",
+            name: "manager_id",
+            message: "Please enter the id of the employee's manager: "
+        }
+    ]);
+
+    const {first_name, last_name, role_id, manager_id} = getNewEmployee;
+
+    db.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [first_name, last_name, role_id, manager_id], (error)=> {
+        if (error){
+            console.log(error);
+        } else {
+            console.log(`\n\n`);
+            console.log(`Successfully added Employee: ${first_name} ${last_name}`);
+            viewAllEmployees();
+        }
+    });
+};
 // ----------------------------------------------------
 
 const initialPrompt = async ()=> {
@@ -158,6 +196,10 @@ const initialPrompt = async ()=> {
 
     if (menu.menuChoice == "- Add a Role"){
         addRole();
+    }
+
+    if (menu.menuChoice == "- Add An Employee"){
+        addEmployee();
     }
 }
 
