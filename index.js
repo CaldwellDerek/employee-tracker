@@ -158,7 +158,76 @@ const addEmployee = async () => {
     });
 };
 // ----------------------------------------------------
+const getAllEmployees = () => {
+    return new Promise( (resolve, reject) => {
+        db.query("SELECT * FROM employee", (error, results) => {
+            if(error){
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        })
+    });
+};
 
+const getAllRoles = () => {
+    return new Promise( (resolve, reject) => {
+        db.query("SELECT * FROM role", (error, results) => {
+            if(error){
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        })
+    });
+};
+
+const updateEmployee = async () => {
+    const allEmployees = [];
+    const allRoles = [];
+
+    const employees = await getAllEmployees();
+    if (employees){
+        for(let employee of employees){
+            allEmployees.push(`${employee.id}`);
+        };
+    };
+    
+    const roles = await getAllRoles();
+    if (roles){
+        for(let role of roles) {
+            allRoles.push(role.id);
+        };
+    };
+
+
+    const updateEmployeePrompt = await i.prompt([
+        {
+            type: "list",
+            name: "employee",
+            message: "Select an employee to update:",
+            choices: allEmployees
+        },
+        {
+            type: "list",
+            name: "role",
+            message: "Select an available role:",
+            choices: allRoles
+        }
+    ]);
+
+    db.query("UPDATE employee SET role_id = ? WHERE id = ?", [updateEmployeePrompt.role ,updateEmployeePrompt.employee], (error)=> {
+        if (error){
+            console.log(error);
+        } else {
+            console.log(`\n\n`);
+            console.log(`Successfully updated employee with ID: ${updateEmployeePrompt.employee} to Role: ${updateEmployeePrompt.role}`);
+            viewAllEmployees();
+        }
+    })
+}
+
+// ----------------------------------------------------
 const initialPrompt = async ()=> {
     const menu = await i.prompt([
         {
@@ -201,6 +270,11 @@ const initialPrompt = async ()=> {
     if (menu.menuChoice == "- Add An Employee"){
         addEmployee();
     }
+
+    if (menu.menuChoice == "- Update an Employee Role"){
+        updateEmployee();
+    }
 }
 
 initialPrompt();
+// updateEmployee();
