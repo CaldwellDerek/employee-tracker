@@ -9,7 +9,7 @@
 5. [Tests](#tests)
 6. [License](#license)
 7. [Questions](#questions)
-8. [Screenshots](#screenshots)
+8. [Media](#media)
 
 
 ## Description
@@ -45,7 +45,7 @@ If you have any questions, feel free to reach out to me at my email: djohncaldwe
 
 All of my work can be viewed at my GitHub profile: [CaldwellDerek](https://github.com/CaldwellDerek)
 
-## Screenshots
+## Media
 
 ### dotenv example:
 ![dotenv-example](./assets/images/dotenv-example.png)
@@ -58,3 +58,8 @@ All of my work can be viewed at my GitHub profile: [CaldwellDerek](https://githu
 
 ### adding a role example:
 ![adding-role-example](./assets/images/add-a-role-examples.png)
+
+### walkthrough video:
+A walkthrough video can be viewed [HERE](https://drive.google.com/file/d/1wkp3b3Oe4InnTANNAjmy4ZTK7gnIfRbQ/view)
+
+The video itself is saved in the ./assets/videos directory of this repository.
