@@ -48,7 +48,21 @@ const viewAllRoles = () => {
 
 const viewAllEmployees = () => {
     db.query(
-        "SELECT employee.id, employee.first_name, employee.last_name, role.title, role.department_id, role.salary, employee.manager_id FROM employee JOIN role WHERE employee.role_id = role.id", 
+        `SELECT 
+            employee.id AS employee_id, 
+            employee.first_name, 
+            employee.last_name, 
+            role.title, 
+            role.department_id, 
+            role.salary, 
+            employee.manager_id, 
+            employee.role_id 
+        FROM 
+            employee 
+        JOIN 
+            role 
+        WHERE 
+            employee.role_id = role.id ORDER BY employee.id`, 
         (error, data) => {
         if (error){
             console.log(error);
@@ -277,4 +291,3 @@ const initialPrompt = async ()=> {
 }
 
 initialPrompt();
-// updateEmployee();
